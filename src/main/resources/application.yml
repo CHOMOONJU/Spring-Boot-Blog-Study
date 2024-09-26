@@ -1,12 +1,15 @@
 spring:
-  jpa:
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-    defer-datasource-initialization: true
   datasource:
-    url: jdbc:h2:mem:testdb
-  h2:
-    console:
-      enabled: true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/blog?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: root
+    password: yM!147~Je
+  thymeleaf:
+    cache: false
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL57Dialect
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      ddl-auto: update

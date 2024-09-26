@@ -18,11 +18,6 @@ import java.util.List;
 public class BlogApiController {
     private final BlogService blogService;
 
-    @GetMapping("/api/test")
-    public List<String> Hello(){
-        return Arrays.asList("react", "spring", "connect-test");
-    }
-
     @PostMapping("/api/articles")
     public ResponseEntity<Article> addArticle(@RequestBody AddArticleRequest request) {
         Article savedArticle = blogService.save(request);

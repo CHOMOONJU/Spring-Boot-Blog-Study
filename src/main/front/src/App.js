@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'; // axios를 임포트
+import axios from 'axios';
 
 function App() {
   const [message, setMessage] = useState([]);
 
   useEffect(() => {
-    axios.get("/api/test") // 프록시 없이 백엔드 서버에 직접 요청
+    axios.get("/api/articles")
       .then((response) => {
         setMessage(response.data);
       })
@@ -16,12 +16,15 @@ function App() {
 
   useEffect(() => {
     console.log(message);
-  }, [message]); // message가 변경될 때마다 로그 출력
+  }, [message]);
 
   return (
     <div>
       {message.map((msg, index) => (
-        <p key={index}>{msg}</p>
+        <div key={index}>
+          <h3>{msg.title}</h3>
+          <p>{msg.content}</p>
+        </div>
       ))}
     </div>
   );
