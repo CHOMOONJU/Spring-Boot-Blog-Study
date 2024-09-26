@@ -10,12 +10,18 @@ import y2m.jp.blogstudy.dto.UpdateArticleRequest;
 import y2m.jp.blogstudy.model.Article;
 import y2m.jp.blogstudy.service.BlogService;
 
+import java.util.Arrays;
 import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
 public class BlogApiController {
     private final BlogService blogService;
+
+    @GetMapping("/api/test")
+    public List<String> Hello(){
+        return Arrays.asList("react", "spring", "connect-test");
+    }
 
     @PostMapping("/api/articles")
     public ResponseEntity<Article> addArticle(@RequestBody AddArticleRequest request) {
