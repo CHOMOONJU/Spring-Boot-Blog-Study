@@ -1,5 +1,13 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
 interface Article {
     id: number;
@@ -8,12 +16,13 @@ interface Article {
   }
 
 const List = () => {
-  const [message, setMessage] = useState<Article[]>([]);
+  const [articles, setArticles] = useState<Article[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios.get("/api/articles")
       .then((response) => {
-        setMessage(response.data);
+        setArticles(response.data);
       })
       .catch((error) => {
         console.error("There was an error fetching the data!", error);
@@ -21,26 +30,41 @@ const List = () => {
   }, []);
 
   useEffect(() => {
-    console.log(message);
-  }, [message]);
+    console.log(articles);
+  }, [articles]);
+
+  const handleRowClick = (id: number) => {
+    navigate(`/Blog/${id}`);
+  };
 
   return (
-    <div className="container mx-auto p-4">
-      <ul role="list" className="divide-y divide-gray-100">
-        {message.map((msg, index) => (
-          <li key={msg.id} className="flex justify-between gap-x-6 py-5">
-            <div className="flex min-w-0 gap-x-4">
-              <div className="min-w-0 flex-auto">
-                <p className="text-sm font-semibold leading-6 text-gray-900">{msg.title}</p>
-              </div>
-            </div>
-            <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-              <p className="text-sm leading-6 text-gray-900">{msg.content}</p>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell>ID</TableCell>
+            <TableCell align="right">Title</TableCell>
+            <TableCell align="right">Content</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {articles.map((atc, index) => (
+            <TableRow
+              key={atc.id}
+              sx={{ '&:last-child td, &:last-child th': { border: 0 },
+                    '&:hover': { cursor: 'pointer' } }}
+              onClick={() => handleRowClick(atc.id)}
+            >
+              <TableCell component="th" scope="row">
+                {atc.id}
+              </TableCell>
+              <TableCell align="right">{atc.title}</TableCell>
+              <TableCell align="right">{atc.content}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   )
 }
 
