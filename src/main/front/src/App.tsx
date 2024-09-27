@@ -1,47 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
 import './tailwind.css';
+import List from './components/List';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Home from './pages/Home';
+import Blog from './pages/Blog';
+import BlogForm from './pages/BlogForm';
+import Header from './components/section/Header';
+import Main from './components/section/Main';
 
-interface Article {
-  id: number;
-  title: string;
-  content: string;
-}
-
-function App() {
-  const [message, setMessage] = useState<Article[]>([]);
-
-  useEffect(() => {
-    axios.get("/api/articles")
-      .then((response) => {
-        setMessage(response.data);
-      })
-      .catch((error) => {
-        console.error("There was an error fetching the data!", error);
-      });
-  }, []);
-
-  useEffect(() => {
-    console.log(message);
-  }, [message]);
+const App:React.FC = () => {
 
   return (
-    <div className="container mx-auto p-4">
-      <ul role="list" className="divide-y divide-gray-100">
-        {message.map((msg, index) => (
-          <li key={msg.id} className="flex justify-between gap-x-6 py-5">
-            <div className="flex min-w-0 gap-x-4">
-              <div className="min-w-0 flex-auto">
-                <p className="text-sm font-semibold leading-6 text-gray-900">{msg.title}</p>
-              </div>
-            </div>
-            <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-              <p className="text-sm leading-6 text-gray-900">{msg.content}</p>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <BrowserRouter>
+      <Header />
+      <Main>
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/Blog/:id' element={<Blog />} />
+          <Route path='/BlogForm/:id' element={<BlogForm />} />
+        </Routes>
+      </Main>
+    </BrowserRouter>
   )
 }
 
