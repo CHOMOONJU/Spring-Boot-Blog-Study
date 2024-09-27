@@ -1,29 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
 import './tailwind.css';
+import List from './components/List';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Home from './pages/Home';
+import Blog from './pages/Blog';
+import BlogForm from './pages/BlogForm';
+import Header from './components/section/Header';
+import Main from './components/section/Main';
 
-interface Article {
-  id: number;
-  title: string;
-  content: string;
-}
-
-function App() {
-  const [message, setMessage] = useState<Article[]>([]);
-
-  useEffect(() => {
-    axios.get("/api/articles")
-      .then((response) => {
-        setMessage(response.data);
-      })
-      .catch((error) => {
-        console.error("There was an error fetching the data!", error);
-      });
-  }, []);
-
-  useEffect(() => {
-    console.log(message);
-  }, [message]);
+const App:React.FC = () => {
 
   return (
     <BrowserRouter>
