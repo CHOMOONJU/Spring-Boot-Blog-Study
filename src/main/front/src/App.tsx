@@ -18,6 +18,7 @@ const App:React.FC = () => {
           <Route path='/' element={<Home />} />
           <Route path='/Blog/:id' element={<Blog />} />
           <Route path='/BlogForm/:id' element={<BlogForm />} />
+          <Route path='/BlogForm/*' element={<BlogForm />} />
         </Routes>
       </Main>
     </BrowserRouter>
